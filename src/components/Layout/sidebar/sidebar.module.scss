@@ -1,0 +1,13 @@
+.inactive {
+    path {
+        @apply fill-[#504B4B];
+    }
+}
+
+.active {
+    //@apply text-primary-100 bg-accent-10 font-bold;
+    svg, path {
+        @apply fill-[#1F6FE3];
+    }
+}
+

@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply text-3xl;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+
+    h3 {
+        @apply text-xl;
+    }
+    h4 {
+        @apply text-2lg;
+    }
+    h5 {
+        @apply text-lg;
+    }
+    h6 {
+        @apply text-3md;
+    }
+    .body-medium {
+        @apply text-2md;
+    }
+    .body-regular {
+        @apply text-md;
+    }
+    .body-small {
+        @apply text-sm;
+    }
+}
+
+.btn--primary {
+    @apply bg-blue-100 text-[#86C429] text-2lg hover:bg-white-100;
+}
+
+.btn--blue {
+    @apply bg-blue-100 hover:border-blue-100 py-2 border hover:bg-white-100 hover:text-blue-100 text-white-100;
+}
+.btn--green {
+    @apply border border-[#089628] text-[#089628] bg-[#ADD8B2] py-2;
+}
+.btn--light-blue {
+    @apply bg-[#BED6F7] border border-[1.5] border-[#1F6FE3] text-[#1F6FE3] py-2;
+}
+.btn--gray {
+    @apply bg-[#F5F5F5] py-2 border border-[#707070] text-[#707070];
+}
+
+.btn--clear {
+    @apply bg-transparent py-2;
+}
+
+.btn--border {
+    @apply bg-white-100 border border-[#86C429] py-2;
+}
+
+.btn--red {
+    @apply bg-[#FF5C5C22] text-[#707070] border-2 border-[#FF5C5C];
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Roboto",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Roboto",
+        "Oxygen",
+        "Ubuntu",
+        "Cantarell",
+        "Fira Sans",
+        "Droid Sans",
+        "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.code {
+    @apply h-[25px] sm:h-[35px] sm:w-[80px] w-[40px] #{!important} ;
+}
+// .btn {
+//     @apply tex min-w-[140px];
+// }
+.mantine-Pagination-control{
+    color: #40D57B;
+    //background-color: yellow;
+    
+}
+
+
+
