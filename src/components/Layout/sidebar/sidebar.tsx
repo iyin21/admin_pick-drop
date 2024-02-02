@@ -26,8 +26,8 @@ const Sidebar=()=>{
                             key={index}
                             className={({ isActive }) =>
                                 isActive
-                                    ? `${styles.active}  flex items-center justify-between gap-4 py-4  w-full text-blue-100 px-6 font-medium `
-                                    : `${styles.inactive} hover:bg-[#E3E4E6] flex items-center py-4 w-full text-[#504B4B] justify-between px-6 font-normal`
+                                    ? `${styles.active}  flex items-center justify-between gap-4 py-4  w-full text-blue-100 translate-x-3 font-medium `
+                                    : `${styles.inactive} hover:bg-[#E3E4E6] flex items-center py-4 w-full text-[#504B4B] justify-between translate-x-3 font-normal`
                             }
                         >
                             <div className="flex items-center gap-5 w-full">

@@ -24,26 +24,26 @@ const TotalStatistics = () => {
                     </p>
                 </div>
                 {/* <p className="text-black-70">|</p> */}
-                <div className="pl-4 text-blue-100">
+                <div className="pl-4">
                     <h1 className="font-bold text-orange-100">476KG</h1>
                     <p className="font-medium ">
                         Total <br /> LPG Ordered
                     </p>
                 </div>
 
-                <div className="pl-4 text-red-100">
+                <div className="pl-4">
                     <h1 className="font-bold text-blue-100">₦2,600,000</h1>
                     <p className="font-medium">
                     Total <br /> Revenue
                     </p>
                 </div>
-                <div className="pl-4 text-red-100">
-                    <h1 className="font-bold">3,400</h1>
+                <div className="pl-4">
+                    <h1 className="font-bold text-green-70">3,400</h1>
                     <p className="font-medium">
                         Active <br /> Users
                     </p>
                 </div>
-                <div className="pl-4 text-red-100">
+                <div className="pl-4 text-brown-100">
                     <h1 className="font-bold">20</h1>
                     <p className="font-medium">
                         Inactive <br /> Users

@@ -5,7 +5,8 @@ import { Chart } from "react-google-charts"
 export const options = {
     pieHole: 0.5,
     is3D: false,
-    colors:["#1F6FE3", "#02C39A", "#F0F3BD", "#D7F4E2", "#FF6663", "#C2AFF0",],
+    colors:["#D7F4E2", "#02C39A", "#F0F3BD", "#1F6FE3", "#FF6663", "#C2AFF0",],
+    backgroundColor:"#FCF9F9",
     //legend: 'none',
     //legend:{position:"labeled"},
     pieSliceText: 'value',
@@ -28,7 +29,7 @@ const TopRequest=()=>{
         
     ]
     return(
-        <div>
+        <div className="border p-2 mt-2">
            <Chart
                 chartType="PieChart"
                 width="100%"

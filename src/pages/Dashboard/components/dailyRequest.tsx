@@ -12,12 +12,11 @@ const data = [
     
 ]
 const options = {
-    colors: ["#BCE0CA"],
+    colors: ["#1F6FE3"],
     legend: { position: "none" },
     bar: { groupWidth: '20%' },
     backgroundColor:"#FCF9F9",
-    border:"red",
-    borderWidth:4,
+    
 
     //areaOpacity: 0.2,
     vAxis: {
@@ -37,7 +36,7 @@ const options = {
 
 const DailyRequest=()=>{
     return(
-        <div>
+        <div className="border p-2 mt-2">
             <Chart
                 width="100%"
                 height="100%"

@@ -1,6 +1,6 @@
 import { Input } from "@components/index"
 import NotificationIcon from "@assets/icons/notification.svg"
-import EnergyLogo from "@assets/images/logo.png"
+import GasLogo from "@assets/images/gasLogo.png"
 import { BiSearch } from "react-icons/bi"
 import { AiFillCaretDown } from "react-icons/ai"
 import useAuth from "@hooks/auth/useAuth"
@@ -9,20 +9,24 @@ import { showNotification } from "@mantine/notifications"
 import { useNavigate } from "react-router-dom"
 
 const Navbar = ({ pageTitle }: { pageTitle: string }) => {
-    const {  logout } = useAuth()
-    const navigate= useNavigate()
+    const { logout } = useAuth()
+    const navigate = useNavigate()
 
-    const handleLogout=()=>{
-        logout().finally(()=>{
+    const handleLogout = () => {
+        logout().finally(() => {
             showNotification({
-                message: "Logged out successully"
+                message: "Logged out successully",
             })
         })
         navigate("/signin")
     }
     return (
         <nav className="flex justify-between items-center border-b border-gray-90 py-4 px-16">
-            <img src={EnergyLogo} alt="" width={60} />
+            <div className="flex items-center">
+                <img src={GasLogo} alt="" width={50} />
+                <p className="text-[28px] font-bold ml-4">Pick & Drop</p>
+            </div>
+
             <h3 className="text-blue-100 font-bold">{pageTitle}</h3>
             <Input
                 placeholder="Search..."
@@ -52,8 +56,9 @@ const Navbar = ({ pageTitle }: { pageTitle: string }) => {
                                 </h6>
                             </Popover.Target>
                             <Popover.Dropdown className="border border-[#1F6FE3]">
-                                <p className="text-[#1F6FE3] cursor-pointer" 
-                                onClick={handleLogout}
+                                <p
+                                    className="text-[#1F6FE3] cursor-pointer"
+                                    onClick={handleLogout}
                                 >
                                     Logout
                                 </p>
