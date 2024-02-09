@@ -7,6 +7,9 @@ import CustomerDetails from "@pages/CustomerDetails"
 import CylinderTracking from "@pages/CylinderTracking"
 import UserManagement from "@pages/UserManagement"
 import Orders from "@pages/Orders"
+import Products from "@pages/Products"
+import Rider from "@pages/Riders"
+import ProductDetails from "@pages/ProductDetails"
 
 function App() {
 
@@ -21,6 +24,9 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/Cylinder-tracking" element={<CylinderTracking />} />
         <Route path="/user-management" element={<UserManagement />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/riders" element={<Rider />} />
+        <Route path="/product-details" element={<ProductDetails />} />
     </Routes>
   )
 }
