@@ -17,14 +17,14 @@ const AddRiderDrawer = ({
     setOpenAddRiderDrawer,
     openAddRiderDrawer,
 }: AddRiderProps) => {
-    const departments = [
-        "administrator",
-        "management",
-        "engineering",
-        "support",
-        "accounting",
-        "legal",
-    ]
+    // const departments = [
+    //     "administrator",
+    //     "management",
+    //     "engineering",
+    //     "support",
+    //     "accounting",
+    //     "legal",
+    // ]
     // const queryClient = useQueryClient()
 
     // const { isPending, mutate } = useMutation({

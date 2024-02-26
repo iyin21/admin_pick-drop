@@ -2,11 +2,11 @@ import { Layout, InvoiceModal, Button } from "@components/index"
 import { useState } from "react"
 import { AiFillCaretDown } from "react-icons/ai"
 import CustomersTable from "./components/customerTable"
-import { BsPlusCircleFill } from "react-icons/bs"
-import { useLocation } from "react-router-dom"
+// import { BsPlusCircleFill } from "react-icons/bs"
+// import { useLocation } from "react-router-dom"
 
 const Customers = () => {
-    let location = useLocation()
+    // let location = useLocation()
     const [opened, setOpened] = useState(false)
 
     return (

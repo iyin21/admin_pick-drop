@@ -1,4 +1,4 @@
-import { Layout, InvoiceModal, Button } from "@components/index"
+import { Layout, InvoiceModal } from "@components/index"
 import { useState } from "react"
 import { AiFillCaretDown } from "react-icons/ai"
 import InvoiceTable from "./components/invoiceTable"

@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom"
 // }
 const ProductTable = () => {
     const navigate = useNavigate()
-    const rows = new Array(5).fill(0).map((element, index) => (
+    const rows = new Array(5).fill(0).map((
+        // element, 
+        index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "

@@ -6,7 +6,7 @@ export interface APIResponse<T> {
     status: string
 }
 export interface Data {
-    data: any
+    data: never
     items: Items[]
     page: number
     page_size: number
