@@ -51,12 +51,12 @@ export const CylinderTracking = [
 
 export const cylinderStatus = (role: string) => {
     switch (role) {
-        case "Drop-off":
+        case "dropped off":
             return <p className="text-[#FCB20D]">Drop-off</p>
-        case "Pick-up":
+        case "picked up":
             return <p className="text-[#44934D]">Pick-up</p>
-        case "inactive":
-            return <p className="text-[#44934D]">Inactive</p>
+        case "untracked":
+            return <p className="text-[#44934D]">Untracked</p>
 
         default:
             return <span>Unknown Role</span>

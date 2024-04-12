@@ -18,12 +18,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-                {/* <AuthContextProvider> */}
+                <AuthContextProvider>
                     <MantineProvider theme={theme}>
                         <Notifications position="top-center" />
                         <App />
                     </MantineProvider>
-                {/* </AuthContextProvider> */}
+                </AuthContextProvider>
             </QueryClientProvider>
         </BrowserRouter>
     </React.StrictMode>

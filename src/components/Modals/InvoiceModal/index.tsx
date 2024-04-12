@@ -6,6 +6,8 @@ import Check from "@assets/images/check.png"
 import Payment from "@assets/images/payment.png"
 import Avatar from "@assets/images/avatar.png"
 import { FaStar } from "react-icons/fa"
+//import { useSingleTransaction } from "@hooks/useTransactions"
+//import { CgSpinner } from "react-icons/cg"
 
 export interface InvoiceModalProps {
     opened: boolean
@@ -14,11 +16,8 @@ export interface InvoiceModalProps {
 }
 
 const InvoiceModal = ({ opened, setOpened, id }: InvoiceModalProps) => {
-    // const { data, isLoading } = useQuery({
-    //     queryKey: ["singleOrder"],
-    //     queryFn: () => fetchSingleOrder({ detailed: true, id: id }),
-
-    // })
+    //const { data, isLoading } = useSingleTransaction({id:id})
+    
     console.log(id)
     return (
         <Modal
@@ -33,6 +32,12 @@ const InvoiceModal = ({ opened, setOpened, id }: InvoiceModalProps) => {
                 blur: 3,
             }}
         >
+             {/* {isLoading ? (
+                <div className="h-screen w-full flex mt-24 justify-center">
+                    <CgSpinner className="animate-spin text-blue-100 text-4xl" />
+                </div>
+            ) : (
+                <> */}
             <div className="rounded-lg bg-white p-2">
                 <div className="cursor-pointer  flex justify-end">
                     <img
@@ -130,6 +135,8 @@ const InvoiceModal = ({ opened, setOpened, id }: InvoiceModalProps) => {
                     </div>
                 </div>
             </div>
+            {/* </>
+            )} */}
         </Modal>
     )
 }

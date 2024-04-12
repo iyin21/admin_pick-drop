@@ -131,25 +131,6 @@ export const businessValidationSchema = yup.object().shape({
     agent: yup.string().required("Agent is required"),
 })
 
-export const individualsValidationSchema = yup.object().shape({
-    firstName: yup.string().required("First Name is required"),
-    lastName: yup.string().required("Company name is required"),
-    gender: yup.string().required("Gender is required"),
-
-    meterType: yup.string().required("Meter type is required"),
-    dob: yup.string().required("Date of birth is required"),
-
-    email: yup
-        .string()
-        .required("Email is required")
-        .email("Please use a valid email address"),
-    phone: yup.string().required("Phone number is required"),
-    country: yup.string().required("Country is required"),
-    state: yup.string().required("State is required"),
-    address: yup.string().required("Address is required"),
-    agent: yup.string().required("Agent is required"),
-})
-
 export const unitGroupValidationSchema = yup.object().shape({
     agent: yup.string().required("Agent is required"),
     groupName: yup.string().required("Group Name is required"),
@@ -195,43 +176,6 @@ export const inspectionValidationSchema = yup.object().shape({
     recommendation: yup.string().required("Recommendation is required"),
 })
 
-export const installationValidationSchema = yup.object().shape({
-    installationTechnician: yup
-        .string()
-        .required("Installation technician is required"),
-    report: yup.string().required("Report/note is required"),
-    status: yup.string().required("Status is required"),
-    date: yup.string().required("Date of completion is required"),
-})
-export const bankInformationValidationSchema = yup.object().shape({
-    bankName: yup.string().required("Bank name is required"),
-    accountNumber: yup.string().required("Account number number is required"),
-    approval: yup
-        .boolean()
-        .oneOf(
-            [true],
-            "You must this to give final approval for the above customer to be deployed"
-        ),
-})
-export const deploymentValidationSchema = yup.object().shape({
-    meter: yup.string().required("Meter is required"),
-    meterNumber: yup.string().required("Meter number is required"),
-    simCardNumber: yup.string().required("Sim card number is required"),
-    serialNumber: yup.string().required("Sim card serial number is required"),
-    approval: yup
-        .boolean()
-        .oneOf(
-            [true],
-            "You must this to give final approval for the above customer to be deployed"
-        ),
-})
-export const levelSensorValidationSchema = yup.object().shape({
-    sensorType: yup.string().required("Sensor Type is required"),
-    IMEINumber: yup.string().required("IMEI Number is required"),
-    simCardNumber: yup.string().required("Sim card number is required"),
-    serialNumber: yup.string().required("Sim card serial number is required"),
-})
-
 export const unitGroupDeploymentValidationSchema = yup.object().shape({
     approval: yup
         .boolean()
@@ -241,15 +185,11 @@ export const unitGroupDeploymentValidationSchema = yup.object().shape({
         ),
 })
 
-export const createUserSchema = yup.object().shape({
-    department: yup.string().required("department is required"),
-    email: yup.string().required("Email is required"),
-    firstName: yup.string().required("First is required"),
-    lastName: yup.string().required("Last name is required"),
-    role: yup.string().required("Role is required"),
-    dateOfSubscription: yup
-        .string()
-        .required("Date of appointment is required"),
+export const productValidationSchema = yup.object().shape({
+    productName: yup.string().required("Product name is required"),
+    price: yup.string().required("Price is required"),
+    productImage: yup.string().required("Product image is required"),
+    description: yup.string().required("Description is required"),
 })
 
 export const updateAccountValidationSchema = yup.object().shape({
@@ -261,20 +201,14 @@ export const updateAccountValidationSchema = yup.object().shape({
 
 // })
 
-// export const confirmEmailAddressSchema = yup.object().shape({
-//     code: yup.string().required("OTP is required "),
-
-// })
-// export const resetPasswordSchema = yup.object().shape({
-//     phoneNumber: yup.string().required("Phone Number is required"),
-//     password: yup.string().required("Password is required").min(8, "Password must be a minimum of 8 characters"),
-//     confirmPassword: yup
-//         .string()
-//         .required("Please confirm your password")
-//         //@ts-expect-error
-//         .oneOf([yup.ref("password"), null], "Password does not match"),
-
-// })
+export const confirmEmailAddressSchema = yup.object().shape({
+    code: yup.string().required("OTP is required "),
+})
+export const cylinderValidationSchema = yup.object().shape({
+    //owner_id: yup.string().required("Owner name is required"),
+    weight: yup.string().required("Volume is required"),
+    dry_weight: yup.string().required("Dry weight is required"),
+})
 
 export const userValidationSchema = yup.object().shape({
     firstName: yup.string().required("First name is required"),
@@ -289,4 +223,18 @@ export const userValidationSchema = yup.object().shape({
         .email("Please use a valid email address"),
 
     role: yup.string().required("Role is required"),
+})
+
+export const riderValidationSchema = yup.object().shape({
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    idCard: yup.string().required("ID card number is required"),
+    dateOfAppointment: yup.string().required("Date of appontment is required"),
+    state: yup.string().required("State is required"),
+    email: yup
+        .string()
+        .required("Email is required")
+        .email("Please use a valid email address"),
+    phoneNumber: yup.string().required("Phone number is required"),
+    vehicle: yup.string().required("Role is required"),
 })

@@ -1,15 +1,16 @@
 import { Table } from "@mantine/core"
-import { usersData, userStatus } from "../utils/userMangent.utils"
+import { userStatus } from "../utils/userMangent.utils"
 import { Checkbox } from "@components/index"
 import { useNavigate } from "react-router-dom"
-//import { Items } from "../../../types/api"
+import { Items } from "../../../types/api/users.types"
 
-// interface UserManagementTableInterface {
-//     data:Items[]
-// }
-const UserManagementTable = () => {
+interface UserManagementTableInterface {
+    data:Items[]
+}
+
+const UserManagementTable = ({data}: UserManagementTableInterface) => {
     const navigate = useNavigate()
-    const rows = usersData.map((element, index) => (
+    const rows = data.map((element, index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "
@@ -20,15 +21,15 @@ const UserManagementTable = () => {
             <Table.Td>
                 <Checkbox />
             </Table.Td>
-            <Table.Td>{element.customerId}</Table.Td>
-            <Table.Td>{element.name}</Table.Td>
-            <Table.Td>{element.department||"Nil"}</Table.Td>
+            <Table.Td>{element.serial_number}</Table.Td>
+            <Table.Td>{element.firstname+" "+element.lastname}</Table.Td>
+            <Table.Td>{"Nil"}</Table.Td>
             <Table.Td>{element.role}</Table.Td>
             <Table.Td>{element.email}</Table.Td>
             <Table.Td>{userStatus(element.status)}</Table.Td>
             <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
-                onClick={() => navigate(`/user/${element.customerId}`)}
+                onClick={() => navigate(`/customer/${element.id}`)}
             >
                 View
             </Table.Td>
@@ -41,7 +42,6 @@ const UserManagementTable = () => {
         "DEPARTMENT",
         "ROLE",
         "EMAIL",
-
         "STATUS",
         "",
     ]

@@ -1,15 +1,15 @@
 import { Table } from "@mantine/core"
-//import { usersData, userStatus } from "../utils/userMangent.utils"
 import { Checkbox } from "@components/index"
 import { useNavigate } from "react-router-dom"
-//import { Items } from "../../../types/api"
+import { Items } from "../../../types/api/products.types"
 
-// interface UserManagementTableInterface {
-//     data:Items[]
-// }
-const ProductTable = () => {
+interface ProductTableInterface {
+    data:Items[]
+    
+}
+const ProductTable = ({data}: ProductTableInterface ) => {
     const navigate = useNavigate()
-    const rows = new Array(5).fill(0).map((element, index) => (
+    const rows = data.map((element, index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "
@@ -20,15 +20,15 @@ const ProductTable = () => {
             <Table.Td>
                 <Checkbox />
             </Table.Td>
-            <Table.Td>3kg</Table.Td>
-            <Table.Td>N2,700</Table.Td>
-            <Table.Td>Hassle-free Cooking Gas – the epitome of ….</Table.Td>
+            <Table.Td>{element.name}</Table.Td>
+            <Table.Td>{(element.price).toLocaleString()}</Table.Td>
+            <Table.Td>{element.description}</Table.Td>
             <Table.Td>johndoe@rokswood.com</Table.Td>
             <Table.Td className="text-[#6EBC77]">In Stock</Table.Td>
 
             <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
-                onClick={() => navigate("/product-details")}
+                onClick={() => navigate(`/product/${element.id}`)}
             >
                 View
             </Table.Td>

@@ -9,7 +9,7 @@ import { showNotification } from "@mantine/notifications"
 import { useNavigate } from "react-router-dom"
 
 const Navbar = ({ pageTitle }: { pageTitle: string }) => {
-    const { logout } = useAuth()
+    const { user, logout } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -49,7 +49,7 @@ const Navbar = ({ pageTitle }: { pageTitle: string }) => {
                         >
                             <Popover.Target>
                                 <h6 className="font-bold flex items-center cursor-pointer">
-                                    John Doe{" "}
+                                    {user?.firstname + " " + user?.lastname}
                                     <span className="ml-2">
                                         <AiFillCaretDown />
                                     </span>

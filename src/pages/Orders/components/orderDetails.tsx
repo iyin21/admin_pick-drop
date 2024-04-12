@@ -2,11 +2,18 @@ import MessageIcon from "@assets/icons/greenMessageIcon.svg"
 import CallIcon from "@assets/icons/greenCallIcon.svg"
 import ProfilePicture from "@assets/images/profilePicture.png"
 import { FaStar } from "react-icons/fa"
+import { Items } from "../../../types/api/order.types"
+import dayjs from "dayjs"
+import AdvancedFormat from "dayjs/plugin/advancedFormat"
 
-const OrderDetails = () => {
+dayjs.extend(AdvancedFormat)
+
+const OrderDetails = ({ data }: { data?: Items }) => {
     return (
         <div>
-            <p className="bg-blue-50 p-4 text-white-100">Order ID 1234567</p>
+            <p className="bg-blue-50 p-4 text-white-100">
+                {data?.serial_number}
+            </p>
             <div className="grid grid-cols-2 gap-6 mt-4">
                 <div>
                     <p className="text-[11px] text-gray-70 mb-2">CUSTOMER</p>
@@ -17,7 +24,9 @@ const OrderDetails = () => {
                             alt=""
                         />
                         <div className="ml-2 basis-1/2">
-                            <p className="text-2md text-black-40">Kate Henry</p>
+                            <p className="text-2md text-black-40">
+                                {data?.recipient?.name}
+                            </p>
                             <div className="flex items-center gap-1">
                                 <FaStar color="#398457" />
                                 <p>4.5</p>
@@ -39,7 +48,7 @@ const OrderDetails = () => {
                         />
                         <div className="ml-2 basis-1/2">
                             <p className="text-2md text-black-40">
-                                Chike Brown
+                                {data?.sender?.name}
                             </p>
                             <div className="flex items-center  gap-1">
                                 <FaStar color="#398457" />
@@ -54,11 +63,16 @@ const OrderDetails = () => {
                 </div>
                 <div>
                     <p className="text-blue-100 text-[10px]">REQUEST DATE</p>
-                    <p className="text-black-30 text-[15px]">10th Nov. 2022</p>
+                    <p className="text-black-30 text-[15px]">
+                        {dayjs(data?.created_at).format("Do MMM. YYYY")} 10th
+                        Nov. 2022
+                    </p>
                 </div>
                 <div>
                     <p className="text-blue-100 text-[10px]">PICK-UP DATE</p>
-                    <p className="text-black-30 text-[15px]">12th Nov. 2022</p>
+                    <p className="text-black-30 text-[15px]">-</p>
+                        {/* 12th Nov. 2022
+                        </p> */}
                 </div>
                 <div>
                     <div>
@@ -69,7 +83,7 @@ const OrderDetails = () => {
                     </div>
 
                     <p className="text-black-30 text-[15px]">
-                        30 Ring road, Ikeja, Lagos State, Nigeria
+                        {data?.recipient?.address}
                     </p>
                 </div>
                 <div>
@@ -80,7 +94,7 @@ const OrderDetails = () => {
                         </p>
                     </div>
                     <p className="text-black-30 text-[15px]">
-                        23 Ring road, Ikeja, Lagos State Nigeria
+                        {data?.sender?.address}
                     </p>
                 </div>
                 <div>

@@ -1,19 +1,19 @@
 import { Table } from "@mantine/core"
 import { Checkbox } from "@components/index"
-
-import { orderHistory } from "@pages/Customers/utils/customers.utils"
+import { Items } from "../../types/api/order.types"
+import dayjs from "dayjs"
 
 interface OrderHistoryTableInterface {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
-    //data: Items[]
+    data: Items[]
     setId: React.Dispatch<React.SetStateAction<string>>
 }
 const OrderHistoryTable = ({
     setOpenModal,
-    //data,
+    data,
     setId,
 }: OrderHistoryTableInterface) => {
-    const rows = orderHistory.map((item, index) => (
+    const rows = data.map((item, index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "
@@ -24,16 +24,16 @@ const OrderHistoryTable = ({
             <Table.Td>
                 <Checkbox />
             </Table.Td>
-            <Table.Td>{item.orderId}</Table.Td>
-            <Table.Td>{item.volume}</Table.Td>
-            <Table.Td>{item.orderDate}</Table.Td>
-            <Table.Td>₦{item.payment}</Table.Td>
-            <Table.Td>{item.paymentMethod}</Table.Td>
+            <Table.Td>{item.serial_number}</Table.Td>
+            <Table.Td>{item.total_weight}</Table.Td>
+            <Table.Td>{dayjs(item.created_at).format("DD/MM/YYYY")}</Table.Td>
+            <Table.Td>₦{item.amount}</Table.Td>
+            <Table.Td>{item.method}</Table.Td>
             <Table.Td className="text-[#44934D]">{item.status}</Table.Td>
             <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
                 onClick={() => {
-                    setId(item.orderId);
+                    setId(item.id);
                     setOpenModal(true)
                 }}
             >

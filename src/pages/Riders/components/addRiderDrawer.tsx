@@ -3,11 +3,13 @@ import { Dispatch, SetStateAction } from "react"
 import Close from "@assets/icons/close.png"
 import { Formik, Form } from "formik"
 import { Button, FormControls } from "@components/index"
-//import { useMutation, useQueryClient } from "@tanstack/react-query"
-//import { type Error } from "../../../types/api"
-//import { showNotification } from "@mantine/notifications"
-//import { userValidationSchema } from "@utils/validationSchema"
-//import dayjs from "dayjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type Error } from "../../../types/api"
+import { showNotification } from "@mantine/notifications"
+import { riderValidationSchema } from "@utils/validationSchema"
+import dayjs from "dayjs"
+import { createRider } from "@services/riders"
+import { useVehicles } from "@hooks/useVehicle"
 
 interface AddRiderProps {
     setOpenAddRiderDrawer: Dispatch<SetStateAction<boolean>>
@@ -17,41 +19,34 @@ const AddRiderDrawer = ({
     setOpenAddRiderDrawer,
     openAddRiderDrawer,
 }: AddRiderProps) => {
-    const departments = [
-        "administrator",
-        "management",
-        "engineering",
-        "support",
-        "accounting",
-        "legal",
-    ]
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-    // const { isPending, mutate } = useMutation({
-    //     mutationFn: createUser,
-    //     onSuccess: () => {
-    //         showNotification({
-    //             title: "Success",
-    //             message: "User created successfully",
-    //             color: "red",
-    //         })
-    //         queryClient
-    //             .invalidateQueries({ queryKey: ["users"] })
-    //             .finally(() => false)
-    //         setOpenAddUserDrawer(false)
-    //     },
-    //     onError: (err: Error) => {
-    //         showNotification({
-    //             title: "Error",
-    //             message:
-    //                 err.response?.data?.message ||
-    //                 err.message ||
-    //                 "Something went wrong, please try again later",
-    //             color: "red",
-    //         })
-    //     },
-    // })
+    const { isPending, mutate } = useMutation({
+        mutationFn: createRider,
+        onSuccess: () => {
+            showNotification({
+                title: "Success",
+                message: "Rider created successfully",
+                color: "red",
+            })
+            queryClient
+                .invalidateQueries({ queryKey: ["users"] })
+                .finally(() => false)
+            setOpenAddRiderDrawer(false)
+        },
+        onError: (err: Error) => {
+            showNotification({
+                title: "Error",
+                message:
+                    err.response?.data?.message ||
+                    err.message ||
+                    "Something went wrong, please try again later",
+                color: "red",
+            })
+        },
+    })
 
+    const { data } = useVehicles({})
     return (
         <Drawer
             opened={openAddRiderDrawer}
@@ -79,15 +74,26 @@ const AddRiderDrawer = ({
                     firstName: "",
                     lastName: "",
                     idCard: "",
-                    department: "",
                     dateOfAppointment: "",
                     state: "",
-                    role: "",
+                    vehicle: "",
                     email: "",
+                    phoneNumber: "",
                 }}
-                //validationSchema={userValidationSchema}
+                validationSchema={riderValidationSchema}
                 onSubmit={(values) =>
-                    console.log(values)
+                    mutate({
+                        firstname: values.firstName,
+                        lastname: values.lastName,
+                        email: values.email,
+                        phone: values.phoneNumber,
+                        state: values.state,
+                        id_number: values.idCard,
+                        vehicle_id: values.vehicle,
+                        date_of_appointment: dayjs(
+                            values.dateOfAppointment
+                        ).format("YYYY-MM-DD"),
+                    })
                 }
             >
                 {() => (
@@ -135,31 +141,30 @@ const AddRiderDrawer = ({
                             />
                         </div>
                         <FormControls
-                                label="Email"
-                                control="input"
-                                name="email"
-                                placeholder="Enter email address"
-                                classNames={{
-                                    mainRoot:
-                                        " border-2   border-gray-100 rounded-[14px] p-6 py-7",
-                                    input: "text-black-100 text-[22px]",
-                                }}
-                                labelClassName="text-black-70 text-[22px]"
-                            />
-                             <FormControls
-                                label="Phone Number"
-                                control="input"
-                                name="phoneNumber"
-                                placeholder="Enter phone number"
-                                classNames={{
-                                    mainRoot:
-                                        " border-2   border-gray-100 rounded-[14px] p-6 py-7",
-                                    input: "text-black-100 text-[22px]",
-                                }}
-                                labelClassName="text-black-70 text-[22px]"
-                            />
-                        
-                        
+                            label="Email"
+                            control="input"
+                            name="email"
+                            placeholder="Enter email address"
+                            classNames={{
+                                mainRoot:
+                                    " border-2   border-gray-100 rounded-[14px] p-6 py-7",
+                                input: "text-black-100 text-[22px]",
+                            }}
+                            labelClassName="text-black-70 text-[22px]"
+                        />
+                        <FormControls
+                            label="Phone Number"
+                            control="input"
+                            name="phoneNumber"
+                            placeholder="Enter phone number"
+                            classNames={{
+                                mainRoot:
+                                    " border-2   border-gray-100 rounded-[14px] p-6 py-7",
+                                input: "text-black-100 text-[22px]",
+                            }}
+                            labelClassName="text-black-70 text-[22px]"
+                        />
+
                         <div className="mt-6">
                             <FormControls
                                 label="State"
@@ -178,7 +183,7 @@ const AddRiderDrawer = ({
                             <FormControls
                                 label="Assign Vehicle"
                                 control="select"
-                                name="role"
+                                name="vehicle"
                                 placeholder="Select role"
                                 classNames={{
                                     mainRoot:
@@ -188,16 +193,18 @@ const AddRiderDrawer = ({
                                 labelClassName="text-black-70 text-[22px]"
                             >
                                 <option value="" disabled selected hidden>
-                                    Select Role
+                                    Select Vehicle
                                 </option>
+                                {data?.data.items.map((item, index) => (
+                                    <option key={index} value={item.id}>
+                                        {item.type}
+                                    </option>
+                                ))}
 
-                                <option value="admin">Admin</option>
                                 <option value="staff">Staff</option>
                             </FormControls>
                         </div>
-                        <div className="mt-6">
-                           
-                        </div>
+                        <div className="mt-6"></div>
                         <div className="flex justify-between mt-14">
                             <Button
                                 variant="light-blue"
@@ -211,10 +218,9 @@ const AddRiderDrawer = ({
                                 variant="blue"
                                 className="shadow-[0_15px_40px_#1F6FE342]"
                                 type="submit"
-                                //disabled={isPending}
+                                disabled={isPending}
                             >
-                                Create
-                                {/* {isPending ? "Creating..." : "Create"} */}
+                                {isPending ? "Creating..." : "Create"}
                             </Button>
                         </div>
                     </Form>

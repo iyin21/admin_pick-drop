@@ -1,84 +1,75 @@
-
-export const usersData=[
+export const usersData = [
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Super Admin",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Engineering",
         role: "Technician",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Marketing",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Legal",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Super Admin",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Super Admin",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
     {
-        customerId:"RW0001",
+        customerId: "RW0001",
         name: "John Doe",
         department: "Administration",
         role: "Super Admin",
         email: "Johndoe@gmail.com",
-        
-        status: true
+
+        status: true,
     },
 ]
 
-export const userStatus = (role: boolean ) => {
+export const userStatus = (role: string) => {
     switch (role) {
-        case false:
-            return (
-                    <p className="text-[#FCB20D]">Pending</p>
-                
-            )
-        case true:
-            return (
-                <p className="text-[#6EBC77]">Online</p>
-            )
-        
-        
+        case "active":
+            return <p className="text-[#6EBC77]">Online</p>
+
         default:
-            return <span>Unknown Role</span>
+            return <p className="text-[#FCB20D]">Pending</p>
     }
 }
