@@ -3,8 +3,8 @@ import CustomersIcon from "../assets/customers"
 import InvoiceHistoryIcon from "../assets/invoiceHistory"
 import OrdersIcon from "../assets/orders"
 import balanceWithdrawalIcon from "../assets/balanceWithdrawal"
-import ProductsIcon from "../assets/userManagement"
-import RidersIcon from "../assets/userManagement"
+import ProductsIcon from "../assets/products"
+import RidersIcon from "../assets/riders"
 import UserManagementIcon from "../assets/userManagement"
 
 
