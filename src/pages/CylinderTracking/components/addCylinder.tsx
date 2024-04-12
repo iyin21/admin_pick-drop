@@ -3,11 +3,11 @@ import { Dispatch, SetStateAction } from "react"
 import Close from "@assets/icons/close.png"
 import { Formik, Form } from "formik"
 import { Button, FormControls } from "@components/index"
-//import { useMutation, useQueryClient } from "@tanstack/react-query"
-//import { type Error } from "../../../types/api"
-//import { showNotification } from "@mantine/notifications"
-//import { userValidationSchema } from "@utils/validationSchema"
-//import dayjs from "dayjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type Error } from "../../../types/api"
+import { showNotification } from "@mantine/notifications"
+import { createCylinder } from "@services/cylinder"
+import { cylinderValidationSchema } from "@utils/validationSchema"
 
 interface AddCylinderProps {
     setOpenAddCylinderDrawer: Dispatch<SetStateAction<boolean>>
@@ -17,33 +17,32 @@ const AddCylinderDrawer = ({
     setOpenAddCylinderDrawer,
     openAddCylinderDrawer,
 }: AddCylinderProps) => {
-    
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-    // const { isPending, mutate } = useMutation({
-    //     mutationFn: createUser,
-    //     onSuccess: () => {
-    //         showNotification({
-    //             title: "Success",
-    //             message: "User created successfully",
-    //             color: "red",
-    //         })
-    //         queryClient
-    //             .invalidateQueries({ queryKey: ["users"] })
-    //             .finally(() => false)
-    //         setOpenAddUserDrawer(false)
-    //     },
-    //     onError: (err: Error) => {
-    //         showNotification({
-    //             title: "Error",
-    //             message:
-    //                 err.response?.data?.message ||
-    //                 err.message ||
-    //                 "Something went wrong, please try again later",
-    //             color: "red",
-    //         })
-    //     },
-    // })
+    const { isPending, mutate } = useMutation({
+        mutationFn: createCylinder,
+        onSuccess: (data) => {
+            showNotification({
+                title: "Success",
+                message: data.data.message,
+                color: "green",
+            })
+            queryClient
+                .invalidateQueries({ queryKey: ["cylinder"] })
+                .finally(() => false)
+            setOpenAddCylinderDrawer(false)
+        },
+        onError: (err: Error) => {
+            showNotification({
+                title: "Error",
+                message:
+                    err.response?.data?.message ||
+                    err.message ||
+                    "Something went wrong, please try again later",
+                color: "red",
+            })
+        },
+    })
 
     return (
         <Drawer
@@ -69,18 +68,17 @@ const AddCylinderDrawer = ({
             </div>
             <Formik
                 initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    idCard: "",
-                    department: "",
-                    dateOfAppointment: "",
-                    state: "",
-                    role: "",
-                    email: "",
+                    owner_id: "",
+                    weight: "",
+                    dry_weight: "",
                 }}
-                //validationSchema={userValidationSchema}
+                validationSchema={cylinderValidationSchema}
                 onSubmit={(values) =>
-                    console.log(values)
+                    mutate({
+                        owner_id: values.owner_id,
+                        weight: Number(values.weight),
+                        dry_weight: Number(values.dry_weight),
+                    })
                 }
             >
                 {() => (
@@ -89,7 +87,7 @@ const AddCylinderDrawer = ({
                             <FormControls
                                 label="Cylinder Owner"
                                 control="input"
-                                name="firstName"
+                                name="owner_id"
                                 placeholder="Add Name"
                                 classNames={{
                                     mainRoot:
@@ -99,12 +97,13 @@ const AddCylinderDrawer = ({
                                 labelClassName="text-black-70 text-[22px]"
                             />
                         </div>
-                        
+
                         <div className="mt-6">
                             <FormControls
                                 label="Volume"
+                                type="number"
                                 control="input"
-                                name="idCard"
+                                name="weight"
                                 placeholder="00KG"
                                 classNames={{
                                     mainRoot:
@@ -114,13 +113,15 @@ const AddCylinderDrawer = ({
                                 labelClassName="text-black-70 text-[22px]"
                             />
                         </div>
-                        
+
                         <div className="mt-6">
                             <FormControls
-                                label="Add Serial Number"
+                                //label="Add Serial Number"
+                                label='Dry weight'
                                 control="input"
-                                name="state"
-                                placeholder="Serial Number"
+                                type="number"
+                                name="dry_weight"
+                                placeholder="Dry weight"
                                 classNames={{
                                     mainRoot:
                                         " border-2  border-gray-100 rounded-[14px] p-6 py-7",
@@ -129,7 +130,7 @@ const AddCylinderDrawer = ({
                                 labelClassName="text-black-70 text-[22px]"
                             />
                         </div>
-                        
+
                         <div className="flex justify-between mt-14">
                             <Button
                                 variant="light-blue"
@@ -143,10 +144,9 @@ const AddCylinderDrawer = ({
                                 variant="blue"
                                 className="shadow-[0_15px_40px_#1F6FE342]"
                                 type="submit"
-                                //disabled={isPending}
+                                disabled={isPending}
                             >
-                                Create
-                                {/* {isPending ? "Creating..." : "Create"} */}
+                                {isPending ? "Creating..." : "Create"}
                             </Button>
                         </div>
                     </Form>

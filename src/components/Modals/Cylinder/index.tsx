@@ -4,21 +4,22 @@ import GasLogo from "@assets/images/gasLogo.png"
 import { GoDotFill } from "react-icons/go"
 import Avatar from "@assets/images/avatar.png"
 import { FaStar } from "react-icons/fa"
-import QRCode from "qrcode.react";
+import QRCode from "qrcode.react"
+import { Items } from "../../../types/api/cylinder.types"
 
 export interface CynlinderModalProps {
     opened: boolean
     setOpened: React.Dispatch<React.SetStateAction<boolean>>
-    id: string
+    item?: Items
 }
 
-const CynlinderModal = ({ opened, setOpened, id }: CynlinderModalProps) => {
+const CynlinderModal = ({ opened, setOpened, item }: CynlinderModalProps) => {
     // const { data, isLoading } = useQuery({
     //     queryKey: ["singleOrder"],
     //     queryFn: () => fetchSingleOrder({ detailed: true, id: id }),
 
     // })
-    console.log(id)
+    
     return (
         <Modal
             opened={opened}
@@ -48,20 +49,24 @@ const CynlinderModal = ({ opened, setOpened, id }: CynlinderModalProps) => {
                     <p className="text-blue-70 text-[19px] font-medium">
                         Serial Number
                     </p>
-                    <p className="text-[24px] font-medium ">RK-SKID2001</p>
+                    <p className="text-[24px] font-medium ">
+                        {item?.serial_number}
+                    </p>
                 </div>
                 <div>
                     <p className="text-blue-70 text-[19px] font-medium">
                         Owner
                     </p>
-                    <p className="text-[24px] font-medium ">Rokswood</p>
+                    <p className="text-[24px] font-medium ">
+                        {item?.owner_name}
+                    </p>
                 </div>
                 <div>
                     <p className="text-blue-70 text-[19px] font-medium">
                         Status
                     </p>
                     <p className="text-[24px] font-medium text-[#FF9D0090]">
-                        Drop-Off
+                        {item?.status}
                     </p>
                 </div>
             </div>
@@ -69,18 +74,18 @@ const CynlinderModal = ({ opened, setOpened, id }: CynlinderModalProps) => {
                 <p className="text-blue-70 text-[19px] font-medium">
                     Current Location
                 </p>
-                <p className="text-[24px] font-medium ">
-                    30 Ring road, Ikeja, Lagos State
-                </p>
+                <p className="text-[24px] font-medium ">{item?.location}</p>
                 <p className="text-black-50 flex items-center">
-                    John Doe
+                    {item?.tracking?.service_person_name}
                     <GoDotFill color="#FF9D0090" /> 07000000000
                 </p>
             </div>
 
             <div className="flex  gap-16 items-center mt-6 mb-2 border-t pt-4">
                 <div>
-                    <p className="text-blue-70 text-[19px] font-medium">Rider</p>
+                    <p className="text-blue-70 text-[19px] font-medium">
+                        Rider
+                    </p>
                     <div className="flex items-center">
                         <img src={Avatar} className="w-10 h-10" alt="" />
                         <div className="pl-2">

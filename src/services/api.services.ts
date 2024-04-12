@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Error } from "../types/api";
 
-const BASE_URL=import.meta.env.VITE_BASE_URL;
+const BASE_URL="https://pick-n-drop-dev.apps.rokswood.com/v1/";
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,

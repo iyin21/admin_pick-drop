@@ -2,16 +2,14 @@ import { Table } from "@mantine/core"
 //import { usersData, userStatus } from "../utils/userMangent.utils"
 import { Checkbox } from "@components/index"
 import { useNavigate } from "react-router-dom"
-//import { Items } from "../../../types/api"
+import { Items } from "../../../types/api/rider.types"
 
-// interface UserManagementTableInterface {
-//     data:Items[]
-// }
-const RiderTable = () => {
+interface RiderTableInterface {
+    data:Items[]
+}
+const RiderTable = ({data}:RiderTableInterface) => {
     const navigate = useNavigate()
-    const rows = new Array(5).fill(0).map((
-        // element, 
-        index) => (
+    const rows = data.map((element, index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "
@@ -22,17 +20,17 @@ const RiderTable = () => {
             <Table.Td>
                 <Checkbox />
             </Table.Td>
-            <Table.Td>RW0001</Table.Td>
-            <Table.Td>John Doe</Table.Td>
+            <Table.Td>{element.serial_number}</Table.Td>
+            <Table.Td>{element.firstname+" "+element.lastname}</Table.Td>
             <Table.Td>RWGK24</Table.Td>
             <Table.Td>25</Table.Td>
-            <Table.Td>johndoe@rokswood.com</Table.Td>
-            <Table.Td className="text-[#6EBC77]">In Stock</Table.Td>
+            <Table.Td>{element.email}</Table.Td>
+            <Table.Td className="text-[#6EBC77]">{element.status}</Table.Td>
             
             <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
                 onClick={() =>
-                    navigate("/Customer/id")
+                    navigate(`/rider/${element.id}`)
                  }
             >
                 View

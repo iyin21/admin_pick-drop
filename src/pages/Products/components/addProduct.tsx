@@ -3,55 +3,65 @@ import { Dispatch, SetStateAction } from "react"
 import Close from "@assets/icons/close.png"
 import { Formik, Form } from "formik"
 import { Button, FormControls } from "@components/index"
-//import { useMutation, useQueryClient } from "@tanstack/react-query"
-//import { type Error } from "../../../types/api"
-//import { showNotification } from "@mantine/notifications"
-//import { userValidationSchema } from "@utils/validationSchema"
-//import dayjs from "dayjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type Error } from "../../../types/api"
+import { showNotification } from "@mantine/notifications"
+import { productValidationSchema } from "@utils/validationSchema"
+import { createProduct } from "@services/products"
+import { Items } from "../../../types/api/products.types"
 
 interface AddProductProps {
     setOpenAddProductDrawer: Dispatch<SetStateAction<boolean>>
     openAddProductDrawer: boolean
+    data?:Items
 }
 const AddProductDrawer = ({
     setOpenAddProductDrawer,
     openAddProductDrawer,
+    data
 }: AddProductProps) => {
-    const departments = [
-        "administrator",
-        "management",
-        "engineering",
-        "support",
-        "accounting",
-        "legal",
-    ]
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-    // const { isPending, mutate } = useMutation({
-    //     mutationFn: createUser,
-    //     onSuccess: () => {
-    //         showNotification({
-    //             title: "Success",
-    //             message: "User created successfully",
-    //             color: "red",
-    //         })
-    //         queryClient
-    //             .invalidateQueries({ queryKey: ["users"] })
-    //             .finally(() => false)
-    //         setOpenAddUserDrawer(false)
-    //     },
-    //     onError: (err: Error) => {
-    //         showNotification({
-    //             title: "Error",
-    //             message:
-    //                 err.response?.data?.message ||
-    //                 err.message ||
-    //                 "Something went wrong, please try again later",
-    //             color: "red",
-    //         })
-    //     },
-    // })
+    const { isPending, mutate } = useMutation({
+        mutationFn: createProduct,
+        onSuccess: () => {
+            showNotification({
+                title: "Success",
+                message: "Product created successfully",
+                color: "green",
+            })
+            queryClient
+                .invalidateQueries({ queryKey: ["products"] })
+                .finally(() => false)
+            setOpenAddProductDrawer(false)
+        },
+        onError: (err: Error) => {
+            showNotification({
+                title: "Error",
+                message:
+                    err.response?.data?.message ||
+                    err.message ||
+                    "Something went wrong, please try again later",
+                color: "red",
+            })
+        },
+    })
+    const base64_arraybuffer = async (data: File | string) => {
+        // Use a FileReader to generate a base64 data URI
+        const base64url = await new Promise((r) => {
+            const reader = new FileReader()
+            reader.onload = () => r(reader.result)
+            reader.readAsDataURL(new Blob([data]))
+        })
 
+        /*
+        The result looks like
+        "data:application/octet-stream;base64,<your base64 data>",
+        so we split off the beginning:
+        */
+        // @ts-expect-error
+        return `data:${data.type};base64,${base64url.split(",", 2)[1]}`
+    }
     return (
         <Drawer
             opened={openAddProductDrawer}
@@ -76,17 +86,20 @@ const AddProductDrawer = ({
             </div>
             <Formik
                 initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    idCard: "",
-                    department: "",
-                    dateOfAppointment: "",
-                    state: "",
-                    role: "",
-                    email: "",
+                    productName: data?.name||"",
+                    price: data?.price||"",
+                    productImage: "",
+                    description: data?.description||"",
                 }}
-                //validationSchema={userValidationSchema}
-                onSubmit={(values) => console.log(values)}
+                validationSchema={productValidationSchema}
+                onSubmit={async (values) =>
+                    mutate({
+                        name: values.productName,
+                        image: `${await base64_arraybuffer(values.productImage)}`,
+                        price: Number(values.price),
+                        description: values.description,
+                    })
+                }
             >
                 {() => (
                     <Form className="py-4 mt-10 border-t">
@@ -106,9 +119,10 @@ const AddProductDrawer = ({
                         </div>
                         <div className="mt-6">
                             <FormControls
-                                label="Pricw"
+                                label="Price"
                                 control="input"
                                 name="price"
+                                type="number"
                                 placeholder="Price"
                                 classNames={{
                                     mainRoot:
@@ -119,29 +133,6 @@ const AddProductDrawer = ({
                             />
                         </div>
 
-                        <div className="mt-6">
-                            <FormControls
-                                label="Discount"
-                                control="select"
-                                name="discount"
-                                placeholder="Enter department"
-                                classNames={{
-                                    mainRoot:
-                                        " border-2  border-gray-100 rounded-[14px] px-6",
-                                    input: "text-black-100 text-[22px]",
-                                }}
-                                labelClassName="text-black-70 text-[22px]"
-                            >
-                                <option value="" disabled selected hidden>
-                                    Select Department
-                                </option>
-                                {departments.map((option: string) => (
-                                    <option key={option} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
-                            </FormControls>
-                        </div>
                         <div className="mt-6">
                             <FormControls
                                 label="Upload Product Image"
@@ -156,7 +147,20 @@ const AddProductDrawer = ({
                                 labelClassName="text-black-70 text-[22px]"
                             />
                         </div>
-
+                        <div className="mt-6">
+                            <FormControls
+                                label="Description"
+                                control="input"
+                                name="description"
+                                placeholder="Price"
+                                classNames={{
+                                    mainRoot:
+                                        " border-2  border-gray-100 rounded-[14px] p-6 py-7",
+                                    input: "text-black-100 text-[22px]",
+                                }}
+                                labelClassName="text-black-70 text-[22px]"
+                            />
+                        </div>
                         <div className="flex justify-between mt-14">
                             <Button
                                 variant="light-blue"
@@ -170,10 +174,9 @@ const AddProductDrawer = ({
                                 variant="blue"
                                 className="shadow-[0_15px_40px_#1F6FE342]"
                                 type="submit"
-                                //disabled={isPending}
+                                disabled={isPending}
                             >
-                                Create
-                                {/* {isPending ? "Creating..." : "Create"} */}
+                                {isPending ? "Creating..." : "Create"}
                             </Button>
                         </div>
                     </Form>

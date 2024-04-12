@@ -3,14 +3,13 @@ import { Formik, Form } from "formik"
 import useShowPassword from "@utils/useShowPassword"
 import { Link } from "react-router-dom"
 import Logo from "@assets/images/logo.png"
-//import { signinValidationSchema } from "@utils/validationSchema"
-import { useNavigate } from "react-router-dom"
-//import useSignin from "@hooks/auth/useSignin"
+import { signinValidationSchema } from "@utils/validationSchema"
+import useSignin from "@hooks/auth/useSignin"
 
 const Signin = () => {
     const { showPassword, displayPasswordIcon } = useShowPassword()
-    const navigate = useNavigate()
-    //const { mutate, isPending } = useSignin()
+    
+    const { mutate, isPending } = useSignin()
 
     return (
         <div className=" flex w-[100%] p-6">
@@ -31,11 +30,10 @@ const Signin = () => {
                         email: "",
                         password: "",
                     }}
-                    //validationSchema={signinValidationSchema}
-                    onSubmit={
-                        () => navigate("/dashboard")
+                    validationSchema={signinValidationSchema}
+                    onSubmit={(values) =>
                         //console.log(values)
-                        //mutate(values)
+                        mutate(values)
                     }
                 >
                     {() => (
@@ -84,10 +82,9 @@ const Signin = () => {
                                 variant="blue"
                                 className="px-6 text-white-100  w-full rounded-[40px] mt-4"
                                 type="submit"
-                                //disabled={isPending}
+                                disabled={isPending}
                             >
-                                SIGN IN
-                                {/* {isPending ? "SIGNING IN..." : "SIGN IN"} */}
+                                {isPending ? "SIGNING IN..." : "SIGN IN"}
                             </Button>
                         </Form>
                     )}

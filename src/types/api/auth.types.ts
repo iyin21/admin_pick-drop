@@ -6,21 +6,21 @@ export interface SigninRequest {
 export interface SignInResponse {
     data: User
     message: string
-    status: string
+    status: boolean
     token: string
 }
 
 export interface User{
     city: null
-    company_name: null
-    department: null
+    created_at: string
+    email: string
     firstname: string
     id: string
-    id_number: string
+    phone: string
     is_active: boolean
     lastname: string
     role: string
     serial_number:  string
-    setup_completed: boolean
+    state: null
     status: string
 }

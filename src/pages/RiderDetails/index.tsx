@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { Button, Input, InvoiceModal } from "@components/index"
-import OrderHistoryTable from "./orderHistoryTable"
+import OrderHistoryTable from "../CustomerDetails/orderHistoryTable"
 import { AiFillCaretDown } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import Arrow from "@assets/icons/arrow.png"
@@ -9,35 +9,50 @@ import MessageIcon from "@assets/icons/messageIcon.svg"
 import CallIcon from "@assets/icons/callIcon.svg"
 import { useParams } from "react-router-dom"
 import { useState } from "react"
-import { useSingleUser, useUserOrders } from "@hooks/useUsers"
+import {  useUserOrders } from "@hooks/useUsers"
+import { useSingleRider } from "@hooks/useRider"
 import dayjs from "dayjs"
 import { CgSpinner } from "react-icons/cg"
 import { deactivateUser, activateUser } from "@services/users"
 import { showNotification } from "@mantine/notifications"
 import { type Error } from "../../types/api"
 import {  useMutation, useQueryClient } from "@tanstack/react-query"
+import AdvancedFormat from "dayjs/plugin/advancedFormat"
+import { RxDotFilled } from "react-icons/rx"
 
-const CustomerDetails = () => {
+dayjs.extend(AdvancedFormat)
+
+const RiderDetails = () => {
     const navigate = useNavigate()
     const [opened, setOpened] = useState(false)
     const { id } = useParams<string>()
     const [orderId, setOrderId] = useState("")
-    const { isLoading, data } = useSingleUser({ detailed: true, id: id || "" })
+    const { isLoading, data } = useSingleRider({ detailed: true, id: id || "" })
 
     const { isLoading: isLoadingOrders, data:orders } = useUserOrders({ detailed: true, id: id || "" })
 
     const queryClient = useQueryClient()
     const { isPending, mutate } = useMutation({
-        mutationFn: data?.data.is_active ? deactivateUser : activateUser,
+        mutationFn: data?.data.data.is_active ? deactivateUser : activateUser,
         onSuccess: (data) => {
             queryClient
                 .invalidateQueries({
                     queryKey: ["users"],
                 })
                 .finally(() => false)
+                queryClient
+                .invalidateQueries({
+                    queryKey: ["riders"],
+                })
+                .finally(() => false)
             queryClient
                 .invalidateQueries({
                     queryKey: ["singleUser"],
+                })
+                .finally(() => false)
+                queryClient
+                .invalidateQueries({
+                    queryKey: ["singleRider"],
                 })
                 .finally(() => false)
             showNotification({
@@ -77,12 +92,12 @@ const CustomerDetails = () => {
                             <div className="flex divide-x-2 gap-2">
                                 <div>
                                     <h4 className="text-[#36474B] font-medium">
-                                        Customer - {data?.data.serial_number}
+                                        {data?.data.data.serial_number}
                                     </h4>
                                 </div>
                             </div>
 
-                            {data?.data.is_active ? (
+                            {data?.data.data.is_active ? (
                                 <Button
                                     variant="red"
                                     onClick={() => mutate(id || "")}
@@ -116,9 +131,9 @@ const CustomerDetails = () => {
                                         className="w-16 h-16 mx-auto rounded-full"
                                     />
                                     <h4 className="text-blue-100 font-medium text-md  mt-4">
-                                        {data?.data.firstname +
+                                        {data?.data.data.firstname +
                                             " " +
-                                            data?.data.lastname}
+                                            data?.data.data.lastname}
                                     </h4>
                                     <div className="flex border border-[#E5E0E0] bg-[#F3F3F3] px-3 mt-2 rounded-[30px] w-fit py-1 mx-auto">
                                         <img src={CallIcon} alt="" />
@@ -133,113 +148,90 @@ const CustomerDetails = () => {
                             <div className="grid grid-cols-4 gap-x-20 ml-10 gap-y-2">
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        SURNAME
+                                        ID CRAD NUMBER
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.lastname}
+                                        {data?.data.data.serial_number}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        GENDER{" "}
+                                    DATE OF APPOINTMENT
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        Male
+                                        {data?.data.data.date_of_appointment ?dayjs(data?.data.data.date_of_appointment).format("Do MMMM, YYYY"):"-"}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        PHONE NUMBER
+                                        Email
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.phone}
+                                        {data?.data.data.email}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        ADDRESS
+                                    VEHICLE ID
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.address}
+                                        {data?.data.data.vehicle_id||"-"}
                                     </h4>
                                 </div>
 
                                 <div className="mb-8">
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        FIRST NAME
+                                        DELIVERY
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.firstname}
+                                        {data?.data.data.total_completed_trips}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        DATE OF BIRTH
+                                    PHONE NUMBER
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        2nd January, 1980{" "}
-                                        {dayjs(data?.data.dob).format(
-                                            "Do MMMM, YYYY"
-                                        )}
+                                        
+                                        {data?.data.data.phone}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        COUNTRY
+                                    LOCATION
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.country}
+                                        {data?.data.data.location}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        Date registered
+                                        STATUS
                                     </h4>
-                                    <h4 className="text-[#444444] text-md ">
-                                        9/01/2024{" "}
-                                        {dayjs(data?.data.created_at).format(
-                                            "d/MM/YYYY"
-                                        )}
+                                    <h4 className="flex text-[#444444] text-md ">
+                                    <RxDotFilled
+                                            color="#40D57B"
+                                            size="24px"
+                                        />
+                                        {data?.data.data.status}
                                     </h4>
+                                    
                                 </div>
 
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
-                                        OTHER NAME
+                                    LAST DELIVERY
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.othername || "-"}
+                                        {data?.data.data.last_trip_at ?dayjs(data?.data.data.last_trip_at).format("d/MM/YYYY | hh:mmp"):"-"}
                                     </h4>
                                 </div>
-                                <div>
-                                    <h4 className="font-medium text-blue-100 text-lg">
-                                        EMAIL
-                                    </h4>
-                                    <h4 className="text-[#444444] text-md ">
-                                        {data?.data.email}
-                                    </h4>
-                                </div>
-                                <div>
-                                    <h4 className="font-medium text-blue-100 text-lg">
-                                        STATE
-                                    </h4>
-                                    <h4 className="text-[#444444] text-md ">
-                                        {data?.data.state}
-                                    </h4>
-                                </div>
-                                <div>
-                                    <h4 className="font-medium text-blue-100 text-lg">
-                                        Cylinder Serial Number
-                                    </h4>
-                                    <h4 className="text-[#444444] flex text-md ">
-                                        N/A
-                                    </h4>
-                                </div>
+                               
                             </div>
                         </div>
                         <div className="w-full bg-[#1F6FE340] mt-6">
                             <p className="text-blue-100 px-8 py-2">
-                                Order History
+                            ACTIVITY LOG
                             </p>
                         </div>
                         <div className="mt-8 px-8 mb-6">
@@ -281,4 +273,4 @@ const CustomerDetails = () => {
     )
 }
 
-export default CustomerDetails
+export default RiderDetails

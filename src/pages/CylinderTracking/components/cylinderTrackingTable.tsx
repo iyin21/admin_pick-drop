@@ -1,21 +1,21 @@
 import { Table } from "@mantine/core"
 import { Checkbox } from "@components/index"
 import {
-    CylinderTracking,
     cylinderStatus,
 } from "../utils/cylinderTracking.utils"
+import { Items } from "../../../types/api/cylinder.types"
 
 interface CylinderTrackingTableInterface {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
-    //data:Items[]
-    setId: React.Dispatch<React.SetStateAction<string>>
+    data:Items[]
+    setItem: React.Dispatch<React.SetStateAction<Items|undefined>>
 }
 const CylinderTrackingTable = ({
     setOpenModal,
-    //data,
-    setId,
+    data,
+    setItem,
 }: CylinderTrackingTableInterface) => {
-    const rows = CylinderTracking.map((item, index) => (
+    const rows = data.map((item, index) => (
         <Table.Tr
             key={index}
             className="text-[#1C1C1C]  group "
@@ -26,11 +26,11 @@ const CylinderTrackingTable = ({
             <Table.Td>
                 <Checkbox />
             </Table.Td>
-            <Table.Td>{item.serialNumber}</Table.Td>
-            <Table.Td>{item.volume}</Table.Td>
-            <Table.Td>{item.owner}</Table.Td>
-            <Table.Td>{item.currentLocation}</Table.Td>
-            <Table.Td>{item.rider}</Table.Td>
+            <Table.Td>{item.serial_number}</Table.Td>
+            <Table.Td>{item.weight}</Table.Td>
+            <Table.Td>{item.owner_name}</Table.Td>
+            <Table.Td>{item.location}</Table.Td>
+            <Table.Td>-</Table.Td>
             <Table.Td className="text-[#44934D]">
                 {cylinderStatus(item.status)}
             </Table.Td>
@@ -38,7 +38,7 @@ const CylinderTrackingTable = ({
             <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
                 onClick={() => {
-                    setId(item.serialNumber)
+                    setItem(item)
                     setOpenModal(true)
                 }}
             >
@@ -50,9 +50,9 @@ const CylinderTrackingTable = ({
         "",
         "INVOICE ID",
         "VOLUME",
-        "ORDER DATE",
-        "PAYMENT",
-        "PAYMENT METHOD",
+        "Owner",
+        "CURRENT LOCATION",
+        "RIDER",
         "STATUS",
         "",
     ]

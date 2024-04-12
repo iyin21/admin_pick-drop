@@ -1,34 +1,37 @@
+import { Items } from "../../../types/api/order.types"
+import dayjs from "dayjs"
 
 const OrderCard = ({
     color,
     handleClick,
+    data,
 }: {
     color: string
     handleClick: () => void
+    data: Items
 }) => {
-
-    
-
     return (
         <div
             className={`${color} flex  mb-4 justify-between cursor-pointer p-4`}
             onClick={handleClick}
         >
-            {/* <div>
+            <div>
                 <p className="text-[10px] text-[#7B7D8B]">SENDER</p>
-                <p className="text-2md text-[#1D1D1D]">Rokswood Gas</p>
-            </div> */}
+                <p className="text-md text-[#1D1D1D]">{data.sender?.name}</p>
+            </div>
             <div>
                 <p className="text-[10px] text-[#7B7D8B]">RECIPIENT</p>
-                <p className="text-2md text-[#1D1D1D]">John Doe</p>
+                <p className="text-md text-[#1D1D1D]">{data?.recipient?.name}</p>
             </div>
             <div>
                 <p className="text-[10px] text-[#7B7D8B]">REQUEST DATE</p>
-                <p className="text-2md text-[#1D1D1D]">10th Nov. 2022</p>
+                <p className="text-md text-[#1D1D1D]">
+                    {dayjs(data.created_at).format("Do MMM., YYYY")}
+                </p>
             </div>
             <div>
                 <p className="text-[10px] text-[#7B7D8B]">STATUS</p>
-                <p className="text-2md text-[#FFA280]">Dispatch</p>
+                <p className="text-md text-[#FFA280]">{data.status}</p>
             </div>
         </div>
     )
