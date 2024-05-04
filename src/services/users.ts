@@ -1,17 +1,32 @@
 import axiosInstance from "./api.services"
-import { SingleUserResponse, UsersResponse, DeactivateUserResponse } from "../types/api/users.types"
+import {
+    SingleUserResponse,
+    UsersResponse,
+    DeactivateUserResponse,
+    CreateStaffRequest,
+} from "../types/api/users.types"
 
 interface IFilters {
     role?: string
     page?: number | string
     size?: number
     status?: string
+    detailed?: string
 }
 
 export const fetchUsers = async (filter: IFilters) => {
     const response = await axiosInstance.get<UsersResponse>("/manage/users", {
         params: filter,
     })
+    return response.data
+}
+export const fetchStaffs = async (filter: IFilters) => {
+    const response = await axiosInstance.get<UsersResponse>(
+        "/manage/users/staffs",
+        {
+            params: filter,
+        }
+    )
     return response.data
 }
 
@@ -36,4 +51,11 @@ export const deactivateUser = (id: string) => {
 }
 export const activateUser = (id: string) => {
     return axiosInstance.put<DeactivateUserResponse>(`/users/${id}/activate`)
+}
+
+export const createStaff = async (data: CreateStaffRequest) => {
+    return await axiosInstance.post<SingleUserResponse>(
+        "/manage/users/staffs",
+        data
+    )
 }

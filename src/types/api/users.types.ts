@@ -66,3 +66,14 @@ export interface DeactivateUserResponse {
     message: string
     status: string
 }
+
+export interface CreateStaffRequest {
+    date_of_appointment: string
+    department: string
+    email: string
+    firstname: string
+    id_number: string
+    lastname: string
+    role: string
+    state: string
+}

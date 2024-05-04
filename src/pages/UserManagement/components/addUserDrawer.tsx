@@ -3,11 +3,12 @@ import { Dispatch, SetStateAction } from "react"
 import Close from "@assets/icons/close.png"
 import { Formik, Form } from "formik"
 import { Button, FormControls } from "@components/index"
-//import { useMutation, useQueryClient } from "@tanstack/react-query"
-//import { type Error } from "../../../types/api"
-//import { showNotification } from "@mantine/notifications"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { type Error } from "../../../types/api"
+import { showNotification } from "@mantine/notifications"
+import { createStaff } from "@services/users"
 import { userValidationSchema } from "@utils/validationSchema"
-//import dayjs from "dayjs"
+import dayjs from "dayjs"
 
 interface AddUserProps {
     setOpenAddUserDrawer: Dispatch<SetStateAction<boolean>>
@@ -25,32 +26,35 @@ const AddUserDrawer = ({
         "accounting",
         "legal",
     ]
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
-    // const { isPending, mutate } = useMutation({
-    //     mutationFn: createUser,
-    //     onSuccess: () => {
-    //         showNotification({
-    //             title: "Success",
-    //             message: "User created successfully",
-    //             color: "red",
-    //         })
-    //         queryClient
-    //             .invalidateQueries({ queryKey: ["users"] })
-    //             .finally(() => false)
-    //         setOpenAddUserDrawer(false)
-    //     },
-    //     onError: (err: Error) => {
-    //         showNotification({
-    //             title: "Error",
-    //             message:
-    //                 err.response?.data?.message ||
-    //                 err.message ||
-    //                 "Something went wrong, please try again later",
-    //             color: "red",
-    //         })
-    //     },
-    // })
+    const { isPending, mutate } = useMutation({
+        mutationFn: createStaff,
+        onSuccess: () => {
+            showNotification({
+                title: "Success",
+                message: "User created successfully",
+                color: "green",
+            })
+            queryClient
+                .invalidateQueries({ queryKey: ["staffs"] })
+                .finally(() => false)
+            queryClient
+                .invalidateQueries({ queryKey: ["users"] })
+                .finally(() => false)
+            setOpenAddUserDrawer(false)
+        },
+        onError: (err: Error) => {
+            showNotification({
+                title: "Error",
+                message:
+                    err.response?.data?.message ||
+                    err.message ||
+                    "Something went wrong, please try again later",
+                color: "red",
+            })
+        },
+    })
 
     return (
         <Drawer
@@ -87,7 +91,18 @@ const AddUserDrawer = ({
                 }}
                 validationSchema={userValidationSchema}
                 onSubmit={(values) =>
-                    console.log(values)
+                    mutate({
+                        firstname: values.firstName,
+                        lastname: values.lastName,
+                        department: values.department,
+                        email: values.email,
+                        id_number: values.idCard,
+                        role: values.role,
+                        state: values.state,
+                        date_of_appointment: dayjs(
+                            values.dateOfAppointment
+                        ).format("YYYY-MM-DD"),
+                    })
                 }
             >
                 {() => (
@@ -233,10 +248,9 @@ const AddUserDrawer = ({
                                 variant="blue"
                                 className="shadow-[0_15px_40px_#1F6FE342]"
                                 type="submit"
-                                //disabled={isPending}
+                                disabled={isPending}
                             >
-                                Create
-                                {/* {isPending ? "Creating..." : "Create"} */}
+                                {isPending ? "Creating..." : "Create"}
                             </Button>
                         </div>
                     </Form>

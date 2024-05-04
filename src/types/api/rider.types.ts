@@ -28,7 +28,12 @@ export interface Items {
     last_session: null
     last_trip_at: string
     lastname: string
-    location: string
+    location: {
+        address: string
+        latitude: number
+        longitude: number
+        place_id: null
+    }
     othername: null
     phone: string
     privacy_policy_consent: boolean

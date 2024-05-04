@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Button, Input, InvoiceModal } from "@components/index"
-import OrderHistoryTable from "../CustomerDetails/orderHistoryTable"
+import { Button, Input, } from "@components/index"
 import { AiFillCaretDown } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import Arrow from "@assets/icons/arrow.png"
@@ -8,8 +7,6 @@ import ProfilePicture from "@assets/images/profilePicture.png"
 import MessageIcon from "@assets/icons/messageIcon.svg"
 import CallIcon from "@assets/icons/callIcon.svg"
 import { useParams } from "react-router-dom"
-import { useState } from "react"
-import {  useUserOrders } from "@hooks/useUsers"
 import { useSingleRider } from "@hooks/useRider"
 import dayjs from "dayjs"
 import { CgSpinner } from "react-icons/cg"
@@ -19,17 +16,20 @@ import { type Error } from "../../types/api"
 import {  useMutation, useQueryClient } from "@tanstack/react-query"
 import AdvancedFormat from "dayjs/plugin/advancedFormat"
 import { RxDotFilled } from "react-icons/rx"
+import { useTrips } from "@hooks/useTrips"
+import TripTable from "./tripTable"
 
 dayjs.extend(AdvancedFormat)
 
 const RiderDetails = () => {
+   
     const navigate = useNavigate()
-    const [opened, setOpened] = useState(false)
     const { id } = useParams<string>()
-    const [orderId, setOrderId] = useState("")
+    
     const { isLoading, data } = useSingleRider({ detailed: true, id: id || "" })
 
-    const { isLoading: isLoadingOrders, data:orders } = useUserOrders({ detailed: true, id: id || "" })
+    console.log("ffhghj", data?.data.data.serial_number)
+    const { isLoading: isLoadingTrips, data:trips } = useTrips({ detailed: true, id: id || "" })
 
     const queryClient = useQueryClient()
     const { isPending, mutate } = useMutation({
@@ -74,21 +74,15 @@ const RiderDetails = () => {
     })
     return (
         <>
-            {isLoading||isLoadingOrders ? (
+            {isLoadingTrips||isLoading ? (
                 <div className="h-screen w-full flex mt-24 justify-center">
                     <CgSpinner className="animate-spin text-blue-100 text-4xl" />
                 </div>
             ) : (
                 <div className="p-10 bg-[#FCF9F9] h-[100%]">
-                    {opened && (
-                        <InvoiceModal
-                            opened={opened}
-                            setOpened={setOpened}
-                            id={orderId}
-                        />
-                    )}
-                    <div className="bg-white-100 rounded-[30px] py-4 pb-20">
-                        <div className="flex justify-between mb-6 px-8 pt-4">
+                   
+                     <div className="bg-white-100 rounded-[30px] py-4 pb-20">
+                         <div className="flex justify-between mb-6 px-8 pt-4">
                             <div className="flex divide-x-2 gap-2">
                                 <div>
                                     <h4 className="text-[#36474B] font-medium">
@@ -145,7 +139,7 @@ const RiderDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-4 gap-x-20 ml-10 gap-y-2">
+                             <div className="grid grid-cols-4 gap-x-20 ml-10 gap-y-2">
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
                                         ID CRAD NUMBER
@@ -201,14 +195,14 @@ const RiderDetails = () => {
                                     LOCATION
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.data.location}
+                                        {data?.data.data.location.address}
                                     </h4>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-blue-100 text-lg">
                                         STATUS
                                     </h4>
-                                    <h4 className="flex text-[#444444] text-md ">
+                                    <h4 className="flex text-[#444444] text-md items-center">
                                     <RxDotFilled
                                             color="#40D57B"
                                             size="24px"
@@ -223,12 +217,12 @@ const RiderDetails = () => {
                                     LAST DELIVERY
                                     </h4>
                                     <h4 className="text-[#444444] text-md ">
-                                        {data?.data.data.last_trip_at ?dayjs(data?.data.data.last_trip_at).format("d/MM/YYYY | hh:mmp"):"-"}
+                                        {data?.data.data.last_trip_at ?dayjs(data?.data.data.last_trip_at).format("d/MM/YYYY | hh:mm a"):"-"}
                                     </h4>
                                 </div>
                                
                             </div>
-                        </div>
+                        </div> 
                         <div className="w-full bg-[#1F6FE340] mt-6">
                             <p className="text-blue-100 px-8 py-2">
                             ACTIVITY LOG
@@ -258,15 +252,13 @@ const RiderDetails = () => {
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div className="px-8">
-                            <OrderHistoryTable
-                                setOpenModal={setOpened}
-                                setId={setOrderId}
-                                data={orders?.data.data.items||[]}
+                        </div> 
+                         <div className="px-8">
+                            <TripTable
+                                data={trips?.data.items||[]}
                             />
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </div>
             )}
         </>
