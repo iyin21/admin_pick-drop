@@ -1,14 +1,12 @@
 import { Table } from "@mantine/core"
-//import { usersData, userStatus } from "../utils/userMangent.utils"
 import { Checkbox } from "@components/index"
-import { useNavigate } from "react-router-dom"
-import { Items } from "../../../types/api/rider.types"
+import { Items } from "../../types/api/trips.types"
 
-interface RiderTableInterface {
-    data:Items[]
+interface TripTableInterface {
+    data: Items[]
 }
-const RiderTable = ({data}:RiderTableInterface) => {
-    const navigate = useNavigate()
+const TripTable = ({data}:TripTableInterface) => {
+
     const rows = data.map((element, index) => (
         <Table.Tr
             key={index}
@@ -21,31 +19,29 @@ const RiderTable = ({data}:RiderTableInterface) => {
                 <Checkbox />
             </Table.Td>
             <Table.Td>{element.serial_number}</Table.Td>
-            <Table.Td>{element.firstname+" "+element.lastname}</Table.Td>
-            <Table.Td>{element?.vehicle_id||"-"} </Table.Td>
-            <Table.Td>{element.total_completed_trips}</Table.Td>
-            <Table.Td>{element.email}</Table.Td>
-            <Table.Td className="text-[#6EBC77]">{element.status}</Table.Td>
+            <Table.Td>{element.delivery_address}</Table.Td>
             
-            <Table.Td
+            <Table.Td>{element.order_total}</Table.Td>
+            <Table.Td>{element.delivery_status}</Table.Td>
+            <Table.Td className="text-[#6EBC77]">{element.status}</Table.Td>
+
+            {/* <Table.Td
                 className="cursor-pointer underline text-[#3A7EC1]"
-                onClick={() =>
-                    navigate(`/rider/${element.id}`)
-                 }
+                onClick={() => navigate(`/rider/${element.id}`)}
             >
                 View
-            </Table.Td>
+            </Table.Td> */}
         </Table.Tr>
     ))
     const tableHead = [
         "",
-        "RIDER ID",
-        "NAME",
-        "VEHICLE",
-        "TRIPS",
-        "EMAIL",
+        "TRIP ID",
+        "DELIVERY ADDRESS",
+        "TOTAL ORDER",
+        "DELIVERY STATUS",
+        
         "STATUS",
-        "",
+        
     ]
     return (
         <Table
@@ -78,4 +74,5 @@ const RiderTable = ({data}:RiderTableInterface) => {
         </Table>
     )
 }
-export default RiderTable
+
+export default TripTable

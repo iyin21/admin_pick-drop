@@ -3,18 +3,17 @@ import { useState } from "react"
 import { BsPlusCircleFill } from "react-icons/bs"
 import UserManagementTable from "./components/userManagementTable"
 import AddUserDrawer from "./components/addUserDrawer"
-import { useQuery } from "@tanstack/react-query"
-import { fetchUsers } from "@services/users"
+
 import { CgSpinner } from "react-icons/cg"
+import { useStaffs } from "@hooks/useUsers"
 
 const UserManagement = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
     const [page, setPage] = useState(1)
 
-    const { data, isLoading } = useQuery({
-        queryKey: ["users"],
-        queryFn: () => fetchUsers({ page, size:25 }),
-    })
+    const { data, isLoading } = useStaffs({})
+        
+
     return (
         <>
          {isLoading ? (

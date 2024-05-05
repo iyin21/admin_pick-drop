@@ -200,9 +200,21 @@ const AddRiderDrawer = ({
                                         {item.type}
                                     </option>
                                 ))}
-
-                                <option value="staff">Staff</option>
                             </FormControls>
+                        </div>
+                        <div className="mt-6">
+                            <FormControls
+                                label="Date of appointment"
+                                control="date"
+                                name="dateOfAppointment"
+                                placeholder="Select Date"
+                                classNames={{
+                                    mainRoot:
+                                        " border-2  border-gray-100 rounded-[14px] p-6 py-7",
+                                    input: "text-black-100 text-[22px]",
+                                }}
+                                labelClassName="text-black-70 text-[22px]"
+                            />
                         </div>
                         <div className="mt-6"></div>
                         <div className="flex justify-between mt-14">

@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import App from "./App.tsx"
-// import { AuthContextProvider } from "@contexts/authContext.tsx"
+import { AuthContextProvider } from "@contexts/authContext.tsx"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import "@mantine/core/styles.css"
 import { MantineProvider, createTheme } from "@mantine/core"
