@@ -9,7 +9,7 @@ import "./styles/global.scss"
 import { BrowserRouter } from "react-router-dom"
 import { Notifications } from "@mantine/notifications"
 import '@mantine/notifications/styles.css';
-import { AuthContextProvider } from "@contexts/authContext.tsx"
+// import { AuthContextProvider } from "@contexts/authContext.tsx"
 const theme = createTheme({
     /** Put your mantine theme override here */
 })

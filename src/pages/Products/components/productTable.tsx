@@ -21,9 +21,9 @@ const ProductTable = ({data}: ProductTableInterface ) => {
                 <Checkbox />
             </Table.Td>
             <Table.Td>{element.name}</Table.Td>
-            <Table.Td>{(element.price).toLocaleString()}</Table.Td>
+            <Table.Td>₦{(element.price).toLocaleString()}</Table.Td>
             <Table.Td>{element.description}</Table.Td>
-            <Table.Td>johndoe@rokswood.com</Table.Td>
+            <Table.Td>12/03/2024</Table.Td>
             <Table.Td className="text-[#6EBC77]">In Stock</Table.Td>
 
             <Table.Td

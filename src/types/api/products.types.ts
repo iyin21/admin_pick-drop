@@ -15,6 +15,7 @@ export interface Data {
 }
 
 export interface Items {
+    created_at: ReactNode
     description: string
     id: string
     image: string
